@@ -1,6 +1,6 @@
 <style>
 
-/* ===== GLASSMORPHISM FOOTER ===== */
+
 .footer{
     background: rgba(10, 10, 20, 0.95);
     backdrop-filter: blur(20px);
@@ -12,7 +12,7 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* Animated top border gradient */
+
 .footer::before{
     content: "";
     position: absolute;
@@ -30,7 +30,7 @@
     100% { background-position: 200% center; }
 }
 
-/* Decorative orbs */
+/
 .footer::after{
     content: "";
     position: absolute;
@@ -51,7 +51,7 @@
     z-index: 1;
 }
 
-/* ===== TOP SECTION ===== */
+
 .footer-top{
     display: grid;
     grid-template-columns: 2fr 1fr 1fr 1fr;
@@ -123,7 +123,7 @@
     border-color: transparent;
 }
 
-/* Footer columns */
+
 .footer-col{
     animation: fadeInUp 0.6s ease;
 }
@@ -199,7 +199,7 @@
     transform: translateX(0);
 }
 
-/* ===== NEWSLETTER ===== */
+
 .newsletter-form{
     margin-top: 20px;
     display: flex;
@@ -247,7 +247,7 @@
     box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
 }
 
-/* ===== TRUST BADGES ===== */
+
 .footer-trust{
     padding: 40px 0;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -287,7 +287,7 @@
     color: #f59e0b;
 }
 
-/* ===== BOTTOM SECTION ===== */
+
 .footer-bottom{
     padding: 28px 0;
     margin-top: 60px;
@@ -332,7 +332,7 @@
     color: #f59e0b;
 }
 
-/* ===== BACK TO TOP BUTTON ===== */
+
 .back-to-top{
     position: fixed;
     bottom: 30px;
@@ -366,7 +366,7 @@
     box-shadow: 0 12px 30px rgba(245, 158, 11, 0.5);
 }
 
-/* ===== RESPONSIVE ===== */
+
 @media (max-width: 968px) {
     .footer-top{
         grid-template-columns: repeat(2, 1fr);
@@ -518,17 +518,17 @@
                 <h4 class="footer-title">Stay Updated</h4>
                 <ul class="footer-links">
                     <li>
-                        <a href = "#">
+                        <a href = "/public/privacy-policy.php">
                             <i class="fa-solid fa-chevron-right"></i> Privacy Policy
                         </a>
                     </li>
                     <li>
-                        <a href = "#">
+                        <a href = "/public/term-of-service.php">
                             <i class="fa-solid fa-chevron-right"></i> Terms of Service
                         </a>
                     </li>
                     <li>
-                        <a href = "#">
+                        <a href = "/public/cookies-policy.php">
                             <i class="fa-solid fa-chevron-right"></i> Cookie Policy
                         </a>
                     </li>
@@ -618,7 +618,7 @@ function subscribeNewsletter(event) {
     event.preventDefault();
     const email = event.target.querySelector('input').value;
     
-    // Show success message (you can replace this with actual API call)
+    
     alert('Thank you for subscribing! 🎉');
     event.target.reset();
     

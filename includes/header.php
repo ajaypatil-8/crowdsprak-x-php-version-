@@ -156,7 +156,6 @@ body {
     color: var(--text-primary);
     display: flex;
     align-items: center;
-    gap: 8px;
     transition: transform 0.3s ease;
 }
 
