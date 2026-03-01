@@ -727,7 +727,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/config/db.php";
                                 
                                 <div class='card-footer'>
                                     <span class='percentage'>" . number_format($percent, 1) . "%</span>
-                                    <a href='/campaign-details.php?id={$row['id']}' class='view-btn'>
+                                    <a href='/public/campaign-details.php?id={$row['id']}' class='view-btn'>
                                         View Campaign <i class='fas fa-arrow-right'></i>
                                     </a>
                                 </div>
@@ -834,5 +834,3 @@ require_once $_SERVER['DOCUMENT_ROOT'] . "/config/db.php";
     </script>
 
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . "/includes/footer.php"; ?>
-
-
