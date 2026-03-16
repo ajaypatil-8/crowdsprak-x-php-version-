@@ -271,11 +271,13 @@ body {
     text-transform: uppercase;
 }
 
+/* ===== EYE ICON FIX =====
+   .pass-wrap wraps ONLY the input so top:50% centers on the input */
 .pass-wrap {
     position: relative;
 }
 
-.form-group input {
+.pass-wrap input {
     width: 100%;
     padding: 16px 50px 16px 20px;
     border-radius: 16px;
@@ -288,12 +290,12 @@ body {
     font-family: 'DM Sans', sans-serif;
 }
 
-.form-group input::placeholder {
+.pass-wrap input::placeholder {
     color: var(--text-tertiary);
     font-weight: 400;
 }
 
-.form-group input:focus {
+.pass-wrap input:focus {
     outline: none;
     border-color: #6366f1;
     box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
@@ -304,7 +306,7 @@ body {
     position: absolute;
     right: 18px;
     top: 50%;
-    margin-top: 6px;
+    transform: translateY(-50%);
     cursor: pointer;
     color: var(--text-tertiary);
     font-size: 18px;
@@ -315,7 +317,7 @@ body {
 
 .toggle-password:hover {
     color: #6366f1;
-    transform: scale(1.15);
+    transform: translateY(-50%) scale(1.15);
 }
 
 .password-strength {
@@ -501,25 +503,33 @@ body {
             <?php endif; ?>
 
             <form method="POST" class="change-pass-form" id="changePassForm">
-                <div class="form-group pass-wrap">
+
+                <div class="form-group">
                     <label>Current Password</label>
-                    <input type="password" name="old_password" id="oldPass" placeholder="Enter current password" required autocomplete="current-password">
-                    <i class="fa fa-eye toggle-password" onclick="togglePass('oldPass', this)"></i>
+                    <!-- pass-wrap wraps ONLY the input so eye top:50% = input center -->
+                    <div class="pass-wrap">
+                        <input type="password" name="old_password" id="oldPass" placeholder="Enter current password" required autocomplete="current-password">
+                        <i class="fa fa-eye toggle-password" onclick="togglePass('oldPass', this)"></i>
+                    </div>
                 </div>
 
-                <div class="form-group pass-wrap">
+                <div class="form-group">
                     <label>New Password</label>
-                    <input type="password" name="new_password" id="newPass" placeholder="Minimum 6 characters" required autocomplete="new-password" oninput="checkPasswordStrength(this.value)">
-                    <i class="fa fa-eye toggle-password" onclick="togglePass('newPass', this)"></i>
+                    <div class="pass-wrap">
+                        <input type="password" name="new_password" id="newPass" placeholder="Minimum 6 characters" required autocomplete="new-password" oninput="checkPasswordStrength(this.value)">
+                        <i class="fa fa-eye toggle-password" onclick="togglePass('newPass', this)"></i>
+                    </div>
                     <div class="password-strength">
                         <div class="password-strength-bar" id="strengthBar"></div>
                     </div>
                 </div>
 
-                <div class="form-group pass-wrap">
+                <div class="form-group">
                     <label>Confirm New Password</label>
-                    <input type="password" name="confirm_password" id="confirmPass" placeholder="Re-enter new password" required autocomplete="new-password">
-                    <i class="fa fa-eye toggle-password" onclick="togglePass('confirmPass', this)"></i>
+                    <div class="pass-wrap">
+                        <input type="password" name="confirm_password" id="confirmPass" placeholder="Re-enter new password" required autocomplete="new-password">
+                        <i class="fa fa-eye toggle-password" onclick="togglePass('confirmPass', this)"></i>
+                    </div>
                 </div>
 
                 <button type="submit" name="change_password" class="btn">
