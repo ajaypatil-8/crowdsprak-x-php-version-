@@ -3,7 +3,9 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 $current = basename($_SERVER['PHP_SELF']);
-$pageTheme = 'orange';
+
+// Determine current page theme
+$pageTheme = 'orange'; // default
 if (strpos($current, 'explore') !== false || strpos($current, 'campaign') !== false) {
     $pageTheme = 'cyan';
 } elseif (strpos($current, 'about') !== false) {
@@ -11,102 +13,97 @@ if (strpos($current, 'explore') !== false || strpos($current, 'campaign') !== fa
 }
 ?>
 
+
 <html lang="en" data-theme="light" data-page="<?= $pageTheme ?>">
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>CrowdSpark - Support Dreams, Change Lives</title>
+
 <link rel="icon" href="/favicon.ico">
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <style>
 
+/* ===== THEME VARIABLES ===== */
 :root {
-    --bg-primary: #f4f6fb;
-    --bg-card: rgba(255, 255, 255, 0.92);
+    --bg-primary: #fafafa;
+    --bg-card: rgba(255, 255, 255, 0.95);
     --bg-card-solid: #ffffff;
-    --bg-hover: #fff8ee;
-    --bg-secondary: #f0f4ff;
-    --bg-input: #f8faff;
-
-    --text-primary: #0d1117;
-    --text-secondary: #5a6478;
-    --text-tertiary: #9aa3b2;
-
-    --border-color: rgba(13, 17, 23, 0.07);
-    --border-hover: rgba(245, 158, 11, 0.25);
-
-    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.09);
-    --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.14);
-    --shadow-xl: 0 32px 80px rgba(0, 0, 0, 0.22);
-
-    --overlay-bg: rgba(10, 14, 26, 0.45);
-
-    --sidebar-bg: rgba(255, 255, 255, 0.97);
-    --sidebar-item-bg: #f5f7ff;
-    --sidebar-item-hover: #eef1ff;
-    --divider: rgba(13, 17, 23, 0.06);
+    --bg-hover: #fff7ed;
+    --bg-secondary: #f1f5f9;
+    
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+    --text-tertiary: #94a3b8;
+    
+    --border-color: rgba(15, 23, 42, 0.08);
+    --border-hover: rgba(245, 158, 11, 0.2);
+    
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+    --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.15);
+    
+    --overlay-bg: rgba(0, 0, 0, 0.4);
 }
 
 [data-theme="dark"] {
-    --bg-primary: #0c0e16;
-    --bg-card: rgba(18, 20, 32, 0.96);
-    --bg-card-solid: #131520;
-    --bg-hover: rgba(245, 158, 11, 0.08);
-    --bg-secondary: rgba(24, 26, 40, 0.85);
-    --bg-input: rgba(30, 32, 50, 0.9);
-
-    --text-primary: #e8ecf5;
-    --text-secondary: #8b93aa;
-    --text-tertiary: #5c647a;
-
-    --border-color: rgba(255, 255, 255, 0.07);
-    --border-hover: rgba(245, 158, 11, 0.35);
-
-    --shadow-sm: 0 2px 10px rgba(0, 0, 0, 0.35);
-    --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.5);
-    --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.65);
-    --shadow-xl: 0 32px 80px rgba(0, 0, 0, 0.8);
-
+    --bg-primary: #0f0f0f;
+    --bg-card: rgba(20, 20, 30, 0.95);
+    --bg-card-solid: #1a1a1a;
+    --bg-hover: rgba(245, 158, 11, 0.1);
+    --bg-secondary: rgba(30, 30, 40, 0.8);
+    
+    --text-primary: #ffffff;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #94a3b8;
+    
+    --border-color: rgba(255, 255, 255, 0.1);
+    --border-hover: rgba(245, 158, 11, 0.3);
+    
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 8px 32px rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 20px 60px rgba(0, 0, 0, 0.6);
+    
     --overlay-bg: rgba(0, 0, 0, 0.7);
-
-    --sidebar-bg: rgba(14, 16, 26, 0.98);
-    --sidebar-item-bg: rgba(30, 33, 50, 0.7);
-    --sidebar-item-hover: rgba(40, 44, 65, 0.9);
-    --divider: rgba(255, 255, 255, 0.05);
 }
 
-
+/* PAGE-SPECIFIC ACCENT COLORS */
 [data-page="orange"] {
     --accent-primary: #f59e0b;
     --accent-secondary: #fb923c;
-    --accent-light: rgba(245, 158, 11, 0.12);
-    --accent-gradient: linear-gradient(135deg, #f59e0b 0%, #fb923c 100%);
-    --accent-glow: rgba(245, 158, 11, 0.3);
+    --accent-gradient: linear-gradient(135deg, #f59e0b, #fb923c);
 }
+
 [data-page="cyan"] {
     --accent-primary: #06b6d4;
     --accent-secondary: #14b8a6;
-    --accent-light: rgba(6, 182, 212, 0.12);
-    --accent-gradient: linear-gradient(135deg, #06b6d4 0%, #14b8a6 100%);
-    --accent-glow: rgba(6, 182, 212, 0.3);
+    --accent-gradient: linear-gradient(135deg, #06b6d4, #14b8a6);
 }
+
 [data-page="purple"] {
     --accent-primary: #8b5cf6;
     --accent-secondary: #3b82f6;
-    --accent-light: rgba(139, 92, 246, 0.12);
-    --accent-gradient: linear-gradient(135deg, #8b5cf6 0%, #3b82f6 100%);
-    --accent-glow: rgba(139, 92, 246, 0.3);
+    --accent-gradient: linear-gradient(135deg, #8b5cf6, #3b82f6);
 }
 
-* { margin: 0; padding: 0; box-sizing: border-box; }
-html, body { overflow-x: hidden; scroll-behavior: smooth; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
 
 body {
-    font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
     padding-top: 100px;
@@ -114,90 +111,76 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* ===== NAVBAR ===== */
 .nav-wrap {
     position: fixed;
-    top: 0; left: 0;
+    top: 0;
+    left: 0;
     width: 100%;
     display: flex;
     justify-content: center;
     z-index: 999;
-    padding: 18px 20px;
-    animation: navSlideDown 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    padding: 20px 16px;
+    animation: slideDown 0.5s ease;
 }
 
-@keyframes navSlideDown {
-    from { transform: translateY(-80px); opacity: 0; }
-    to   { transform: translateY(0); opacity: 1; }
+@keyframes slideDown {
+    from { transform: translateY(-100px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
 .navbar {
-    max-width: 1200px;
+    max-width: 1180px;
     width: 100%;
-    height: 66px;
+    height: 68px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 28px;
-    border-radius: 20px;
+    padding: 0 32px;
+    border-radius: 999px;
     background: var(--bg-card);
-    backdrop-filter: blur(24px) saturate(200%);
-    -webkit-backdrop-filter: blur(24px) saturate(200%);
-    box-shadow: var(--shadow-md), 0 0 0 1px var(--border-color);
-    transition: all 0.4s ease;
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
-}
-
-.navbar::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.15);
-    pointer-events: none;
+    overflow: hidden;
 }
 
 .navbar.scrolled {
-    height: 58px;
-    box-shadow: var(--shadow-lg), 0 0 0 1px var(--border-color);
-    border-radius: 16px;
+    height: 60px;
+    box-shadow: var(--shadow-lg);
 }
 
 /* Logo */
 .logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 21px;
+    font-weight: 900;
+    font-size: 22px;
     text-decoration: none;
     color: var(--text-primary);
     display: flex;
     align-items: center;
-    gap: 8px;
     transition: transform 0.3s ease;
-    letter-spacing: -0.3px;
 }
-.logo:hover { transform: scale(1.04); }
+
+.logo:hover {
+    transform: scale(1.05);
+}
 
 .logo-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
+    font-size: 26px;
     background: var(--accent-gradient);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    box-shadow: 0 4px 12px var(--accent-glow);
-    animation: iconPulse 3s ease infinite;
-    flex-shrink: 0;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: pulse 2s ease infinite;
 }
 
-@keyframes iconPulse {
-    0%, 100% { box-shadow: 0 4px 12px var(--accent-glow); }
-    50% { box-shadow: 0 4px 20px var(--accent-glow), 0 0 0 4px var(--accent-light); }
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
 }
 
-.logo-text { color: var(--text-primary); }
-.logo-text span {
+.logo span {
     background: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -207,653 +190,702 @@ body {
 .nav-links {
     display: flex;
     align-items: center;
-    gap: 2px;
+    gap: 8px;
     list-style: none;
 }
 
 .nav-links a {
     position: relative;
-    padding: 8px 16px;
-    border-radius: 12px;
+    padding: 10px 18px;
+    border-radius: 999px;
     text-decoration: none;
-    font-size: 13.5px;
+    font-size: 14px;
     font-weight: 600;
     color: var(--text-secondary);
-    transition: all 0.25s ease;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     align-items: center;
-    gap: 7px;
-    letter-spacing: 0.1px;
-}
-
-.nav-links a i {
-    font-size: 13px;
-    opacity: 0.7;
-    transition: opacity 0.2s ease;
+    gap: 6px;
 }
 
 .nav-links a:hover {
     color: var(--accent-primary);
-    background: var(--accent-light);
+    transform: translateY(-2px);
 }
-.nav-links a:hover i { opacity: 1; }
 
+/* Active page - uses current page color */
 .nav-links a.active {
     background: var(--accent-gradient);
     color: #fff;
-    box-shadow: 0 3px 12px var(--accent-glow);
-}
-.nav-links a.active i { opacity: 1; }
-.nav-links a.active:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 5px 18px var(--accent-glow);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* Nav Right */
+.nav-links a.active:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* Right Section */
 .nav-right {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
 }
 
+/* Buttons */
 .btn-nav {
-    padding: 9px 18px;
-    border-radius: 12px;
-    font-size: 13.5px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-size: 14px;
     font-weight: 700;
     text-decoration: none;
-    transition: all 0.25s ease;
+    transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
-    gap: 7px;
-    letter-spacing: 0.1px;
+    gap: 6px;
 }
 
 .btn-login {
-    border: 1.5px solid var(--border-color);
-    color: var(--text-secondary);
+    border: 2px solid var(--accent-primary);
+    color: var(--accent-primary);
     background: transparent;
 }
+
 .btn-login:hover {
-    border-color: var(--accent-primary);
-    color: var(--accent-primary);
-    background: var(--accent-light);
+    background: var(--accent-primary);
+    color: #fff;
+    transform: translateY(-2px);
 }
 
 .btn-creator {
     background: var(--accent-gradient);
     color: #fff;
-    box-shadow: 0 3px 12px var(--accent-glow);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
+
 .btn-creator:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px var(--accent-glow);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
 }
 
 /* Theme Toggle */
 .theme-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
-    border: 1.5px solid var(--border-color);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 2px solid var(--border-color);
     cursor: pointer;
     background: var(--bg-card-solid);
-    color: var(--text-secondary);
-    font-size: 15px;
+    color: var(--accent-primary);
+    font-size: 18px;
     display: flex;
     align-items: center;
     justify-content: center;
     box-shadow: var(--shadow-sm);
-    transition: all 0.25s ease;
+    transition: all 0.3s ease;
 }
+
 .theme-btn:hover {
+    transform: scale(1.1) rotate(20deg);
     border-color: var(--accent-primary);
-    color: var(--accent-primary);
-    transform: rotate(15deg) scale(1.05);
 }
+
 [data-theme="light"] .theme-btn .fa-moon { display: block; }
-[data-theme="light"] .theme-btn .fa-sun  { display: none; }
-[data-theme="dark"]  .theme-btn .fa-moon { display: none; }
-[data-theme="dark"]  .theme-btn .fa-sun  { display: block; }
+[data-theme="light"] .theme-btn .fa-sun { display: none; }
+[data-theme="dark"] .theme-btn .fa-moon { display: none; }
+[data-theme="dark"] .theme-btn .fa-sun { display: block; }
 
 /* Avatar */
-.avatar-btn {
-    width: 40px;
-    height: 40px;
-    border-radius: 12px;
+.avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
     background: var(--accent-gradient);
     display: flex;
     align-items: center;
     justify-content: center;
     color: #fff;
-    font-family: 'Syne', sans-serif;
     font-weight: 800;
-    font-size: 15px;
     cursor: pointer;
     overflow: hidden;
-    box-shadow: 0 3px 12px var(--accent-glow);
-    transition: all 0.25s ease;
-    border: none;
-    outline: none;
-    position: relative;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
 }
-.avatar-btn:hover {
-    transform: translateY(-1px) scale(1.05);
-    box-shadow: 0 6px 20px var(--accent-glow);
+
+.avatar:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
 }
-.avatar-btn img {
+
+.avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* =============================================
-   OVERLAY
-   ============================================= */
+/* ===== OVERLAY ===== */
 .profile-overlay {
     position: fixed;
     inset: 0;
     background: var(--overlay-bg);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(8px);
     opacity: 0;
     pointer-events: none;
-    transition: opacity 0.35s ease;
-    z-index: 1000;
+    transition: opacity 0.4s ease;
+    z-index: 998;
 }
+
 .profile-overlay.active {
     opacity: 1;
     pointer-events: auto;
 }
 
-/* =============================================
-   SIDEBAR — FULL REDESIGN
-   ============================================= */
+/* ===== SIDEBAR ===== */
 .profile-sidebar {
     position: fixed;
     top: 0;
-    right: -500px;
-    width: 380px;
+    right: -450px;
+    width: 420px;
     height: 100vh;
-    background: var(--sidebar-bg);
-    backdrop-filter: blur(40px) saturate(200%);
-    -webkit-backdrop-filter: blur(40px) saturate(200%);
-    box-shadow: var(--shadow-xl);
-    transition: right 0.45s cubic-bezier(0.32, 0.72, 0, 1);
-    z-index: 1001;
+    background: var(--bg-card);
+    backdrop-filter: blur(40px) saturate(180%);
+    box-shadow: -20px 0 80px rgba(0, 0, 0, 0.3);
+    transition: right 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 999;
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    border-left: 1px solid var(--border-color);
 }
-.profile-sidebar.active { right: 0; }
 
-/* Close */
+.profile-sidebar.active {
+    right: 0;
+}
+
+/* Close Button */
 .sidebar-close {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.15);
+    top: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bg-secondary);
     backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    border: none;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
-    color: rgba(255,255,255,0.9);
-    transition: all 0.25s ease;
+    font-size: 18px;
+    color: var(--text-secondary);
+    transition: all 0.3s ease;
     z-index: 10;
-}
-.sidebar-close:hover {
-    background: rgba(239, 68, 68, 0.85);
-    border-color: transparent;
-    transform: rotate(90deg);
-    color: #fff;
+    box-shadow: var(--shadow-sm);
 }
 
-/* ---- Sidebar Header ---- */
+.sidebar-close:hover {
+    background: #ef4444;
+    color: #fff;
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+}
+
+/* Sidebar Header */
 .sidebar-header {
-    padding: 0;
+    padding: 50px 30px 30px;
     background: var(--accent-gradient);
     position: relative;
     overflow: hidden;
-    flex-shrink: 0;
 }
 
-/* Decorative blobs */
-.sidebar-header::before,
+.sidebar-header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+    animation: float 6s ease-in-out infinite;
+}
+
 .sidebar-header::after {
     content: '';
     position: absolute;
-    border-radius: 50%;
-    pointer-events: none;
-}
-.sidebar-header::before {
-    width: 280px;
-    height: 280px;
-    background: radial-gradient(circle, rgba(255,255,255,0.18) 0%, transparent 65%);
-    top: -80px;
-    right: -60px;
-    animation: blobFloat1 7s ease-in-out infinite;
-}
-.sidebar-header::after {
-    width: 200px;
-    height: 200px;
-    background: radial-gradient(circle, rgba(255,255,255,0.12) 0%, transparent 65%);
-    bottom: -60px;
-    left: -40px;
-    animation: blobFloat2 9s ease-in-out infinite;
+    bottom: -50%;
+    left: -20%;
+    width: 250px;
+    height: 250px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1), transparent 70%);
+    animation: float 8s ease-in-out infinite reverse;
 }
 
-@keyframes blobFloat1 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(-15px, 15px) scale(1.08); }
-}
-@keyframes blobFloat2 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(12px, -10px) scale(1.05); }
+@keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(20px, 20px); }
 }
 
-.sidebar-header-inner {
-    position: relative;
-    z-index: 1;
-    padding: 36px 28px 28px;
+/* Profile Content */
+.sidebar-profile {
     display: flex;
     flex-direction: column;
-    gap: 0;
-}
-
-/* Avatar + info row */
-.sidebar-profile-row {
-    display: flex;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 20px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
 }
 
 .sidebar-avatar {
-    width: 66px;
-    height: 66px;
-    border-radius: 18px;
-    background: rgba(255,255,255,0.22);
-    border: 2px solid rgba(255,255,255,0.35);
-    color: #fff;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #fff;
+    color: var(--accent-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Syne', sans-serif;
+    font-size: 42px;
     font-weight: 900;
-    font-size: 26px;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
     overflow: hidden;
-    flex-shrink: 0;
-    box-shadow: 0 8px 28px rgba(0,0,0,0.2);
-    transition: transform 0.3s ease;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    margin-bottom: 20px;
+    /* pulse ring animation */
+    position: relative;
 }
-.sidebar-avatar:hover { transform: scale(1.06); }
+
+.sidebar-avatar::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 2.5px solid rgba(255, 255, 255, 0.5);
+    animation: ringPulse 2.5s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes ringPulse {
+    0%   { transform: scale(1);    opacity: 0.7; }
+    50%  { transform: scale(1.1);  opacity: 0.25; }
+    100% { transform: scale(1);    opacity: 0.7; }
+}
+
+@keyframes scaleIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
 .sidebar-avatar img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-.sidebar-user-info { flex: 1; min-width: 0; }
-
 .sidebar-user-info h4 {
     color: #fff;
-    font-family: 'Syne', sans-serif;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 6px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-shadow: 0 1px 6px rgba(0,0,0,0.15);
+    margin-bottom: 8px;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.5s ease 0.1s both;
 }
 
-.sidebar-role-badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgba(255,255,255,0.25);
-    color: rgba(255,255,255,0.95);
-    font-size: 11.5px;
-    font-weight: 700;
-    padding: 3px 10px;
-    border-radius: 6px;
-    letter-spacing: 0.4px;
-    text-transform: uppercase;
-}
-.sidebar-role-badge i { font-size: 10px; }
-
-/* Quick stats bar */
-.sidebar-stats {
-    display: flex;
-    gap: 8px;
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
 
-.sidebar-stat {
-    flex: 1;
-    background: rgba(255,255,255,0.15);
-    border: 1px solid rgba(255,255,255,0.2);
-    border-radius: 12px;
-    padding: 10px 10px 9px;
-    text-align: center;
-    backdrop-filter: blur(8px);
-    transition: background 0.2s ease;
-}
-.sidebar-stat:hover { background: rgba(255,255,255,0.22); }
-
-.sidebar-stat-num {
-    color: #fff;
-    font-family: 'Syne', sans-serif;
-    font-size: 17px;
-    font-weight: 800;
-    line-height: 1;
-    margin-bottom: 3px;
-}
-.sidebar-stat-lbl {
-    color: rgba(255,255,255,0.75);
-    font-size: 10px;
+.sidebar-user-info p {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 14px;
     font-weight: 600;
-    letter-spacing: 0.3px;
-    text-transform: uppercase;
+    text-transform: capitalize;
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(10px);
+    padding: 6px 16px;
+    border-radius: 999px;
+    display: inline-block;
+    animation: slideUp 0.5s ease 0.2s both;
+    /* shimmer sweep on the role badge */
+    position: relative;
+    overflow: hidden;
 }
 
-/* ---- Sidebar Content ---- */
+.sidebar-user-info p::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent);
+    animation: badgeShimmer 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes badgeShimmer {
+    0%   { left: -100%; }
+    50%  { left: 140%; }
+    100% { left: 140%; }
+}
+
+/* Scrollable Content */
 .sidebar-content {
     flex: 1;
     overflow-y: auto;
-    padding: 20px 16px;
+    padding: 24px;
+}
+
+.sidebar-content::-webkit-scrollbar { width: 6px; }
+.sidebar-content::-webkit-scrollbar-track { background: transparent; }
+.sidebar-content::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 10px;
+}
+.sidebar-content::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-primary);
+}
+
+/* ===== SIDEBAR LINKS — enhanced animations, outlines, effects ===== */
+.sidebar-links {
     display: flex;
     flex-direction: column;
     gap: 6px;
 }
 
-.sidebar-content::-webkit-scrollbar { width: 4px; }
-.sidebar-content::-webkit-scrollbar-track { background: transparent; }
-.sidebar-content::-webkit-scrollbar-thumb {
-    background: var(--border-color);
-    border-radius: 4px;
+/* Stagger-in animation when sidebar opens */
+.profile-sidebar.active .sidebar-links a {
+    animation: linkSlideIn 0.4s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-.sidebar-content::-webkit-scrollbar-thumb:hover { background: var(--accent-primary); }
+.profile-sidebar.active .sidebar-links a:nth-child(1) { animation-delay: 0.06s; }
+.profile-sidebar.active .sidebar-links a:nth-child(2) { animation-delay: 0.12s; }
+.profile-sidebar.active .sidebar-links a:nth-child(3) { animation-delay: 0.18s; }
+.profile-sidebar.active .sidebar-links a:nth-child(4) { animation-delay: 0.24s; }
+.profile-sidebar.active .sidebar-links a:nth-child(5) { animation-delay: 0.30s; }
+.profile-sidebar.active .sidebar-links a:nth-child(6) { animation-delay: 0.36s; }
 
-/* Section label */
-.sidebar-section-label {
-    font-size: 10.5px;
-    font-weight: 800;
-    letter-spacing: 0.8px;
-    text-transform: uppercase;
-    color: var(--text-tertiary);
-    padding: 12px 12px 6px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-.sidebar-section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--divider);
-}
-
-/* Nav Items */
-.sidebar-nav-item {
-    text-decoration: none;
-    color: var(--text-primary);
-    padding: 11px 14px;
-    border-radius: 13px;
-    font-weight: 600;
-    font-size: 14px;
-    transition: all 0.2s ease;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    position: relative;
-    background: transparent;
-    border: 1px solid transparent;
-}
-
-.sidebar-nav-item .nav-icon {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    background: var(--sidebar-item-bg);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: var(--text-secondary);
-    flex-shrink: 0;
-    transition: all 0.25s ease;
-    border: 1px solid var(--border-color);
-}
-
-.sidebar-nav-item .nav-label { flex: 1; }
-
-.sidebar-nav-item .nav-arrow {
-    font-size: 11px;
-    color: var(--text-tertiary);
-    opacity: 0;
-    transform: translateX(-4px);
-    transition: all 0.2s ease;
-}
-
-.sidebar-nav-item:hover {
-    background: var(--sidebar-item-hover);
-    border-color: var(--border-color);
-    transform: translateX(2px);
-    color: var(--accent-primary);
-}
-.sidebar-nav-item:hover .nav-icon {
-    background: var(--accent-light);
-    color: var(--accent-primary);
-    border-color: var(--accent-primary);
-    transform: scale(1.08);
-}
-.sidebar-nav-item:hover .nav-arrow {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-/* Staggered sidebar item animation */
-.profile-sidebar.active .sidebar-nav-item {
-    animation: itemSlideIn 0.4s ease both;
-}
-.profile-sidebar.active .sidebar-nav-item:nth-child(1)  { animation-delay: 0.05s; }
-.profile-sidebar.active .sidebar-nav-item:nth-child(2)  { animation-delay: 0.08s; }
-.profile-sidebar.active .sidebar-nav-item:nth-child(3)  { animation-delay: 0.11s; }
-.profile-sidebar.active .sidebar-nav-item:nth-child(4)  { animation-delay: 0.14s; }
-.profile-sidebar.active .sidebar-nav-item:nth-child(5)  { animation-delay: 0.17s; }
-.profile-sidebar.active .sidebar-nav-item:nth-child(6)  { animation-delay: 0.20s; }
-.profile-sidebar.active .sidebar-nav-item:nth-child(7)  { animation-delay: 0.23s; }
-
-@keyframes itemSlideIn {
-    from { opacity: 0; transform: translateX(14px); }
+@keyframes linkSlideIn {
+    from { opacity: 0; transform: translateX(24px); }
     to   { opacity: 1; transform: translateX(0); }
 }
 
-/* ---- Sidebar Footer ---- */
-.sidebar-footer {
-    padding: 16px;
-    border-top: 1px solid var(--divider);
+.sidebar-links a {
+    text-decoration: none;
+    color: var(--text-primary);
+    padding: 14px 18px;
+    border-radius: 14px;
+    font-weight: 600;
+    font-size: 15px;
+    /* outlined border always visible, subtle */
+    border: 1.5px solid var(--border-color);
+    background: transparent;
+    transition:
+        background   0.28s ease,
+        color        0.28s ease,
+        border-color 0.28s ease,
+        transform    0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow   0.28s ease,
+        padding-left 0.28s ease;
     display: flex;
-    flex-direction: column;
-    gap: 10px;
-    flex-shrink: 0;
+    align-items: center;
+    gap: 14px;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Theme toggle row */
-.sidebar-theme-row {
+/* Gradient left-bar indicator */
+.sidebar-links a::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 4px;
+    background: var(--accent-gradient);
+    border-radius: 0 4px 4px 0;
+    transform: scaleY(0);
+    transform-origin: center;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Shine sweep on hover */
+.sidebar-links a::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -80%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.5s ease;
+    pointer-events: none;
+}
+
+.sidebar-links a:hover {
+    background: var(--bg-hover);
+    color: var(--accent-primary);
+    border-color: var(--accent-primary);
+    transform: translateX(6px) scale(1.015);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.08),
+                inset 0 0 0 1px rgba(245, 158, 11, 0.15);
+    padding-left: 24px;
+}
+
+.sidebar-links a:hover::before {
+    transform: scaleY(1);
+}
+
+.sidebar-links a:hover::after {
+    left: 130%;
+}
+
+/* Active press */
+.sidebar-links a:active {
+    transform: translateX(4px) scale(0.98);
+    box-shadow: none;
+}
+
+/* Icon */
+.sidebar-links a i {
+    font-size: 18px;
+    width: 24px;
+    flex-shrink: 0;
+    transition:
+        transform  0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        color      0.28s ease,
+        filter     0.28s ease;
+}
+
+.sidebar-links a:hover i {
+    transform: scale(1.25) rotate(-6deg);
+    filter: drop-shadow(0 0 5px var(--accent-primary));
+}
+
+/* ===== THEME TOGGLE ===== */
+.sidebar-theme-toggle {
+    margin: 20px 0;
+    padding: 18px 20px;
+    background: var(--bg-secondary);
+    backdrop-filter: blur(10px);
+    border-radius: 14px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 13px 14px;
-    background: var(--sidebar-item-bg);
-    border-radius: 13px;
-    border: 1px solid var(--border-color);
+    border: 1.5px solid var(--border-color);
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition:
+        border-color 0.28s ease,
+        background   0.28s ease,
+        transform    0.28s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow   0.28s ease;
 }
-.sidebar-theme-row:hover { border-color: var(--accent-primary); }
 
-.sidebar-theme-left {
+.sidebar-theme-toggle:hover {
+    border-color: var(--accent-primary);
+    background: var(--bg-hover);
+    transform: scale(1.025);
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.07),
+                inset 0 0 0 1px rgba(245, 158, 11, 0.1);
+}
+
+.sidebar-theme-info {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
     color: var(--text-primary);
     font-weight: 600;
-    font-size: 14px;
-}
-.sidebar-theme-left i {
-    font-size: 16px;
-    color: var(--accent-primary);
+    font-size: 15px;
 }
 
-/* Toggle pill */
-.toggle-pill {
-    width: 46px;
-    height: 26px;
-    background: #d1d5e0;
+.sidebar-theme-info i {
+    font-size: 20px;
+    color: var(--accent-primary);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.sidebar-theme-toggle:hover .sidebar-theme-info i {
+    transform: rotate(30deg) scale(1.2);
+}
+
+.theme-switch {
+    width: 56px;
+    height: 30px;
+    background: #cbd5e1;
     border-radius: 999px;
     position: relative;
-    transition: background 0.3s ease;
     cursor: pointer;
-    flex-shrink: 0;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
 }
-.toggle-pill::before {
-    content: '';
+
+.sidebar-theme-toggle:hover .theme-switch {
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.2);
+}
+
+.theme-switch::before {
+    content: "";
     position: absolute;
     top: 3px;
     left: 3px;
-    width: 20px;
-    height: 20px;
+    width: 24px;
+    height: 24px;
     background: #fff;
     border-radius: 50%;
-    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
 }
-[data-theme="dark"] .toggle-pill { background: var(--accent-primary); }
-[data-theme="dark"] .toggle-pill::before { transform: translateX(20px); }
 
-/* Logout */
-.sidebar-logout {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    justify-content: center;
-    padding: 13px 18px;
-    background: rgba(239, 68, 68, 0.08);
-    border: 1.5px solid rgba(239, 68, 68, 0.18);
-    color: #ef4444;
-    border-radius: 13px;
+[data-theme="dark"] .theme-switch {
+    background: var(--accent-gradient);
+}
+
+[data-theme="dark"] .theme-switch::before {
+    left: 29px;
+}
+
+/* ===== LOGOUT BUTTON ===== */
+.logout-btn {
+    margin: 20px 0;
+    padding: 18px;
+    text-align: center;
+    background: linear-gradient(135deg, #ef4444, #dc2626);
+    color: #fff;
+    border-radius: 14px;
     text-decoration: none;
     font-weight: 700;
-    font-size: 14px;
-    transition: all 0.25s ease;
-}
-.sidebar-logout i { font-size: 15px; transition: transform 0.25s ease; }
-.sidebar-logout:hover {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    border-color: transparent;
-    color: #fff;
+    font-size: 16px;
+    border: 1.5px solid transparent;
+    transition:
+        background   0.3s ease,
+        transform    0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+        box-shadow   0.3s ease,
+        border-color 0.3s ease;
     box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
-    transform: translateY(-1px);
-}
-.sidebar-logout:hover i { transform: translateX(3px); }
-
-/* =============================================
-   RESPONSIVE
-   ============================================= */
-@media (max-width: 900px) {
-    .nav-links { display: none; }
-    .navbar { padding: 0 20px; }
-    .profile-sidebar { width: 340px; }
-}
-
-@media (max-width: 600px) {
-    .nav-wrap { padding: 14px 12px; }
-    .navbar { height: 58px; padding: 0 14px; border-radius: 16px; }
-    .logo { font-size: 19px; }
-    .logo-icon { width: 30px; height: 30px; font-size: 14px; }
-    .btn-nav { padding: 7px 13px; font-size: 12.5px; }
-    .theme-btn, .avatar-btn { width: 36px; height: 36px; border-radius: 10px; }
-    .profile-sidebar { width: 100%; }
-    .sidebar-header-inner { padding: 28px 20px 22px; }
-    .sidebar-avatar { width: 58px; height: 58px; font-size: 22px; }
-    .sidebar-user-info h4 { font-size: 16px; }
-}
-
-/* Hamburger for mobile nav */
-.nav-mobile-menu {
-    display: none;
-    width: 36px;
-    height: 36px;
-    border-radius: 10px;
-    background: var(--bg-secondary);
-    border: 1.5px solid var(--border-color);
+    display: flex;
     align-items: center;
     justify-content: center;
-    cursor: pointer;
-    color: var(--text-secondary);
-    font-size: 15px;
-    transition: all 0.2s ease;
+    gap: 10px;
+    position: relative;
+    overflow: hidden;
 }
-.nav-mobile-menu:hover {
-    border-color: var(--accent-primary);
-    color: var(--accent-primary);
+
+/* Shine sweep on logout hover */
+.logout-btn::after {
+    content: '';
+    position: absolute;
+    top: 0; left: -80%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transform: skewX(-20deg);
+    transition: left 0.5s ease;
+    pointer-events: none;
 }
-@media (max-width: 900px) { .nav-mobile-menu { display: flex; } }
+
+.logout-btn:hover {
+    background: linear-gradient(135deg, #dc2626, #b91c1c);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(239, 68, 68, 0.45);
+    border-color: rgba(239, 68, 68, 0.4);
+}
+
+.logout-btn:hover::after {
+    left: 130%;
+}
+
+.logout-btn:active {
+    transform: translateY(0) scale(0.99);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+.logout-btn i {
+    font-size: 18px;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.logout-btn:hover i {
+    transform: translateX(5px) rotate(-8deg);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 968px) {
+    .nav-links {
+        display: none;
+    }
+    
+    .navbar {
+        padding: 0 20px;
+    }
+    
+    .profile-sidebar {
+        width: 100%;
+        right: -100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar {
+        height: 60px;
+        padding: 0 16px;
+    }
+    
+    .logo {
+        font-size: 18px;
+    }
+    
+    .btn-nav {
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+    
+    .theme-btn {
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+    
+    .sidebar-avatar {
+        width: 80px;
+        height: 80px;
+        font-size: 36px;
+    }
+    
+    .sidebar-user-info h4 {
+        font-size: 20px;
+    }
+}
 
 </style>
 
 
-<!-- =============================================
-     NAVBAR
-     ============================================= -->
+<!-- NAVBAR — unchanged -->
 <div class="nav-wrap">
     <nav class="navbar" id="navbar">
-
+        
         <a href="/index.php" class="logo">
-            <div class="logo-icon">✨</div>
-            <div class="logo-text">Crowd<span>Spark</span></div>
+            <span class="logo-icon">✨</span>
+            Crowd<span>Spark</span>
         </a>
 
-        <ul class="nav-links">
-            <li>
-                <a class="<?= $current=='index.php'?'active':'' ?>" href="/index.php">
-                    <i class="fa-solid fa-house"></i> Home
-                </a>
-            </li>
-            <li>
-                <a class="<?= (strpos($current,'explore')!==false||strpos($current,'campaign')!==false)?'active':'' ?>" href="/public/explore-campaigns.php">
-                    <i class="fa-solid fa-layer-group"></i> Projects
-                </a>
-            </li>
-            <li>
-                <a class="<?= $current=='about.php'?'active':'' ?>" href="/public/about.php">
-                    <i class="fa-solid fa-circle-info"></i> About
-                </a>
-            </li>
-            <li>
-                <a class="<?= $current=='contact.php'?'active':'' ?>" href="/public/contact.php">
-                    <i class="fa-solid fa-phone"></i> Contact
-                </a>
-            </li>
-        </ul>
+        <div class="nav-links">
+            <a class="<?= $current=='index.php'?'active':'' ?>" href="/index.php">
+                <i class="fa-solid fa-house"></i> Home
+            </a>
+
+            <a class="<?= (strpos($current, 'explore') !== false || strpos($current, 'campaign') !== false)?'active':'' ?>" href = "/public/explore-campaigns.php">
+                <i class="fa-solid fa-layer-group"></i> Projects
+            </a>
+
+            <a class="<?= $current=='about.php'?'active':'' ?>" href="/public/about.php">
+                <i class="fa-solid fa-circle-info"></i> About
+            </a>
+
+            <a class="<?= $current=='contact.php'?'active':'' ?>" href="/public/contact.php">
+                <i class="fa-solid fa-phone"></i> Contact
+            </a>
+        </div>
 
         <div class="nav-right">
-
-            <button class="nav-mobile-menu" onclick="openSidebar()" title="Menu">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-
+            
             <button class="theme-btn" onclick="toggleTheme()" title="Toggle theme">
                 <i class="fa-solid fa-moon"></i>
                 <i class="fa-solid fa-sun"></i>
@@ -861,10 +893,10 @@ body {
 
             <?php if(!isset($_SESSION['user_id'])): ?>
 
-                <a href="/user/login.php" class="btn-nav btn-login">
-                    <i class="fa-solid fa-sign-in-alt"></i> Login
+                <a href = "/user/login.php" class="btn-nav btn-login">
+                    <i class="fa-solid fa-sign-in"></i> Login
                 </a>
-                <a href="/user/becomecreator.php" class="btn-nav btn-creator">
+                <a href = "/user/becomecreator.php" class="btn-nav btn-creator">
                     <i class="fa-solid fa-rocket"></i> Start Project
                 </a>
 
@@ -884,13 +916,13 @@ body {
                     </a>
                 <?php endif; ?>
 
-                <button class="avatar-btn" onclick="openSidebar()">
+                <div class="avatar" onclick="openSidebar()">
                     <?php if(!empty($_SESSION['profile_image'])): ?>
                         <img src="<?= $_SESSION['profile_image'] ?>" alt="Profile">
                     <?php else: ?>
                         <?= strtoupper(substr($_SESSION['name'], 0, 1)); ?>
                     <?php endif; ?>
-                </button>
+                </div>
 
             <?php endif; ?>
 
@@ -898,173 +930,130 @@ body {
     </nav>
 </div>
 
-
-<!-- =============================================
-     SIDEBAR
-     ============================================= -->
+<!-- GLASSMORPHIC SIDEBAR — unchanged HTML, enhanced CSS only -->
 <?php if(isset($_SESSION['user_id'])): ?>
 
 <div id="overlay" class="profile-overlay" onclick="closeSidebar()"></div>
 
 <div id="sidebar" class="profile-sidebar">
-
-    <button class="sidebar-close" onclick="closeSidebar()" title="Close">
+    
+    <button class="sidebar-close" onclick="closeSidebar()">
         <i class="fa-solid fa-times"></i>
     </button>
 
-    <!-- Header -->
     <div class="sidebar-header">
-        <div class="sidebar-header-inner">
-
-            <div class="sidebar-profile-row">
-                <div class="sidebar-avatar">
-                    <?php if(!empty($_SESSION['profile_image'])): ?>
-                        <img src="<?= $_SESSION['profile_image'] ?>" alt="Profile">
-                    <?php else: ?>
-                        <?= strtoupper(substr($_SESSION['name'], 0, 1)); ?>
-                    <?php endif; ?>
-                </div>
-
-                <div class="sidebar-user-info">
-                    <h4><?= htmlspecialchars($_SESSION['name']); ?></h4>
-                    <div class="sidebar-role-badge">
-                        <?php if($_SESSION['role']=='admin'): ?>
-                            <i class="fa-solid fa-shield"></i>
-                        <?php elseif($_SESSION['role']=='creator'): ?>
-                            <i class="fa-solid fa-bolt"></i>
-                        <?php else: ?>
-                            <i class="fa-solid fa-user"></i>
-                        <?php endif; ?>
-                        <?= ucfirst($_SESSION['role']); ?>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quick stats -->
-            <div class="sidebar-stats">
-                <div class="sidebar-stat">
-                    <div class="sidebar-stat-num">—</div>
-                    <div class="sidebar-stat-lbl">Backed</div>
-                </div>
-                <?php if($_SESSION['role']=='creator'): ?>
-                <div class="sidebar-stat">
-                    <div class="sidebar-stat-num">—</div>
-                    <div class="sidebar-stat-lbl">Projects</div>
-                </div>
+        <div class="sidebar-profile">
+            <div class="sidebar-avatar">
+                <?php if(!empty($_SESSION['profile_image'])): ?>
+                    <img src="<?= $_SESSION['profile_image'] ?>" alt="Profile">
+                <?php else: ?>
+                    <?= strtoupper(substr($_SESSION['name'], 0, 1)); ?>
                 <?php endif; ?>
-                <div class="sidebar-stat">
-                    <div class="sidebar-stat-num">—</div>
-                    <div class="sidebar-stat-lbl">Saved</div>
-                </div>
             </div>
 
+            <div class="sidebar-user-info">
+                <h4><?= htmlspecialchars($_SESSION['name']); ?></h4>
+                <p><?= ucfirst($_SESSION['role']); ?></p>
+            </div>
         </div>
     </div>
 
-    <!-- Content -->
     <div class="sidebar-content">
+        <div class="sidebar-links">
 
-        <?php if($_SESSION['role']=="admin"): ?>
-            <div class="sidebar-section-label">Administration</div>
-            <a href="/admin/admin-dashboard.php" class="sidebar-nav-item">
-                <div class="nav-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                <span class="nav-label">Admin Dashboard</span>
-                <i class="fa-solid fa-chevron-right nav-arrow"></i>
+            <?php if($_SESSION['role']=="admin"): ?>
+                <a href = "/admin/admin-dashboard.php">
+                    <i class="fa-solid fa-shield"></i> Admin Dashboard
+                </a>
+            <?php endif; ?>
+
+            <?php if($_SESSION['role']=="creator"): ?>
+                <a href="/creator/creator-dashboard.php">
+                    <i class="fa-solid fa-chart-line"></i> Creator Dashboard
+                </a>
+                <a href="/creator/my-campaigns.php">
+                    <i class="fa-solid fa-layer-group"></i> My Campaigns
+                </a>
+            <?php endif; ?>
+
+            <a href="/dashboard/user-dashboard.php">
+                <i class="fa-solid fa-user"></i> My Dashboard
             </a>
-        <?php endif; ?>
-
-        <?php if($_SESSION['role']=="creator"): ?>
-            <div class="sidebar-section-label">Creator</div>
-            <a href="/creator/creator-dashboard.php" class="sidebar-nav-item">
-                <div class="nav-icon"><i class="fa-solid fa-chart-line"></i></div>
-                <span class="nav-label">Creator Dashboard</span>
-                <i class="fa-solid fa-chevron-right nav-arrow"></i>
+            <a href="/dashboard/edit-profile.php">
+                <i class="fa-solid fa-pen"></i> Edit Profile
             </a>
-            <a href="/creator/my-campaigns.php" class="sidebar-nav-item">
-                <div class="nav-icon"><i class="fa-solid fa-layer-group"></i></div>
-                <span class="nav-label">My Campaigns</span>
-                <i class="fa-solid fa-chevron-right nav-arrow"></i>
+            <a href="/dashboard/change-password.php">
+                <i class="fa-solid fa-lock"></i> Change Password
             </a>
-        <?php endif; ?>
+            <a href="/dashboard/my-donations.php">
+                <i class="fa-solid fa-heart"></i> My Donations
+            </a>
 
-        <div class="sidebar-section-label">Account</div>
+        </div>
 
-        <a href="/dashboard/user-dashboard.php" class="sidebar-nav-item">
-            <div class="nav-icon"><i class="fa-solid fa-grid-2"></i></div>
-            <span class="nav-label">My Dashboard</span>
-            <i class="fa-solid fa-chevron-right nav-arrow"></i>
-        </a>
-        <a href="/dashboard/edit-profile.php" class="sidebar-nav-item">
-            <div class="nav-icon"><i class="fa-solid fa-user-pen"></i></div>
-            <span class="nav-label">Edit Profile</span>
-            <i class="fa-solid fa-chevron-right nav-arrow"></i>
-        </a>
-        <a href="/dashboard/change-password.php" class="sidebar-nav-item">
-            <div class="nav-icon"><i class="fa-solid fa-lock"></i></div>
-            <span class="nav-label">Change Password</span>
-            <i class="fa-solid fa-chevron-right nav-arrow"></i>
-        </a>
-        <a href="/dashboard/my-donations.php" class="sidebar-nav-item">
-            <div class="nav-icon"><i class="fa-solid fa-heart"></i></div>
-            <span class="nav-label">My Donations</span>
-            <i class="fa-solid fa-chevron-right nav-arrow"></i>
-        </a>
-
-    </div>
-
-    <!-- Footer -->
-    <div class="sidebar-footer">
-
-        <div class="sidebar-theme-row" onclick="toggleTheme()">
-            <div class="sidebar-theme-left">
-                <i class="fa-solid fa-circle-half-stroke"></i>
+        <div class="sidebar-theme-toggle">
+            <div class="sidebar-theme-info">
+                <i class="fa-solid fa-palette"></i>
                 <span>Dark Mode</span>
             </div>
-            <div class="toggle-pill"></div>
+            <div class="theme-switch" onclick="toggleTheme()"></div>
         </div>
 
-        <a href="/user/logout.php" class="sidebar-logout">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            Sign Out
+        <a href = "/user/logout.php" class="logout-btn">
+            <i class="fa-solid fa-sign-out"></i> Logout
         </a>
-
     </div>
 
 </div>
-
-<?php endif; ?>
 </head>
 
 <body>
 
-<script>
+<?php endif; ?>
 
+<script>
+// Theme System
 function getTheme() {
     return localStorage.getItem('crowdspark-theme') || 'light';
 }
+
 function setTheme(theme) {
     document.documentElement.setAttribute('data-theme', theme);
     localStorage.setItem('crowdspark-theme', theme);
 }
+
 function toggleTheme() {
-    setTheme(getTheme() === 'light' ? 'dark' : 'light');
+    const currentTheme = getTheme();
+    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
 }
-(function() { setTheme(getTheme()); })();
 
+// Initialize theme
+(function() {
+    const savedTheme = getTheme();
+    setTheme(savedTheme);
+})();
 
+// Sidebar Controls
 function openSidebar() {
-    document.getElementById('sidebar').classList.add('active');
-    document.getElementById('overlay').classList.add('active');
-    document.body.style.overflow = 'hidden';
+    document.getElementById("sidebar").classList.add("active");
+    document.getElementById("overlay").classList.add("active");
+    document.body.style.overflow = "hidden";
 }
+
 function closeSidebar() {
-    document.getElementById('sidebar').classList.remove('active');
-    document.getElementById('overlay').classList.remove('active');
-    document.body.style.overflow = '';
+    document.getElementById("sidebar").classList.remove("active");
+    document.getElementById("overlay").classList.remove("active");
+    document.body.style.overflow = "auto";
 }
 
-
+// Navbar Scroll
 window.addEventListener('scroll', () => {
-    document.getElementById('navbar').classList.toggle('scrolled', window.pageYOffset > 50);
+    const navbar = document.getElementById('navbar');
+    if (window.pageYOffset > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
 });
 </script>
