@@ -806,6 +806,42 @@ body {
     transform: translateX(5px) rotate(-8deg);
 }
 
+/* ===== BACK BUTTON ===== */
+.back-btn {
+    position: fixed;
+    top: 24px;
+    left: 20px;
+    z-index: 1000;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent-gradient);
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.4);
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, opacity 0.2s ease;
+    text-decoration: none;
+}
+
+.back-btn:hover {
+    transform: scale(1.12) translateX(-2px);
+    box-shadow: 0 6px 20px rgba(245, 158, 11, 0.55);
+}
+
+.back-btn:active {
+    transform: scale(0.96);
+}
+
+.back-btn.hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 968px) {
     .nav-links {
@@ -930,6 +966,11 @@ body {
     </nav>
 </div>
 
+<!-- BACK BUTTON -->
+<button class="back-btn hidden" id="backBtn" onclick="history.back()" title="Go back">
+    <i class="fa-solid fa-arrow-left"></i>
+</button>
+
 <!-- GLASSMORPHIC SIDEBAR — unchanged HTML, enhanced CSS only -->
 <?php if(isset($_SESSION['user_id'])): ?>
 
@@ -1012,6 +1053,14 @@ body {
 <?php endif; ?>
 
 <script>
+// Back Button
+(function() {
+    var btn = document.getElementById('backBtn');
+    if (btn && window.history.length > 1) {
+        btn.classList.remove('hidden');
+    }
+})();
+
 // Theme System
 function getTheme() {
     return localStorage.getItem('crowdspark-theme') || 'light';
